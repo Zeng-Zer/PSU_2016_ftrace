@@ -12,7 +12,12 @@ NAME :=		ftrace
 SRCDIR :=	src/
 INCLUDE :=	include/
 
-SRC :=		main.c
+SRC :=		main.c \
+		fork_process.c \
+		get_syscall_name.c \
+		trace_process.c \
+		trace_syscall.c \
+		trace_function.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g
