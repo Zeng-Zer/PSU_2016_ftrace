@@ -19,7 +19,7 @@ int	main(int argc, char *argv[])
       fprintf(stderr, "Usage: %s <commande>\n", argv[0]);
       return 1;
     }
-  /* pid = fork_process(argv + 1); */
-  /* trace_process(pid); */
+  pid = fork_process(argv + 1);
+  trace_process(pid);
   return (0);
 }
