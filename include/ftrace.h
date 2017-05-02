@@ -41,8 +41,10 @@ typedef struct			s_syscall_proto
 
 pid_t				fork_process(char *argv[]);
 void				trace_process(pid_t pid);
-void				trace_syscall(t_proc *proc);
+void				trace_syscall(t_proc *proc, long opcode);
 void				trace_function(t_proc *proc, long rip);
 t_syscall_proto			get_syscall_proto(int num);
+char				*get_function_name(char const *filename,
+						   long addr);
 
 #endif /* !FTRACE_H_ */

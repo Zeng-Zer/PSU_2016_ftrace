@@ -57,9 +57,12 @@ static void	print_ret(t_proc *proc)
     fprintf(stderr, " = 0x%llx\n", proc->regs.rax);
 }
 
-void	trace_syscall(t_proc *proc)
+void	trace_syscall(t_proc *proc, long opcode)
 {
-  print_syscall(proc);
-  print_param(proc);
-  print_ret(proc);
+  if ((short)opcode == SYSCALL)
+    {
+      print_syscall(proc);
+      print_param(proc);
+      print_ret(proc);
+    }
 }
