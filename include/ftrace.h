@@ -21,10 +21,21 @@
 # include <sys/wait.h>
 # include <sys/user.h>
 # include <signal.h>
+# include <elf.h>
 
 # define SYSCALL 0x050f
 # define RELCALL 0xe8
 # define RET 0xc3
+
+typedef struct			s_elf
+{
+  Elf64_Ehdr			*elf;
+  Elf64_Shdr			*shdr;
+  Elf64_Sym			*sym;
+  int				symsize;
+  char				*strtab;
+  char				*ststrtab;
+}				t_elf;
 
 typedef struct			s_proc
 {
@@ -45,6 +56,6 @@ void				trace_syscall(t_proc *proc, long opcode);
 void				trace_function(t_proc *proc, long rip);
 t_syscall_proto			get_syscall_proto(int num);
 char				*get_function_name(char const *filename,
-						   long addr);
+						   unsigned long addr);
 
 #endif /* !FTRACE_H_ */
