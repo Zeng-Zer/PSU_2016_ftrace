@@ -13,7 +13,7 @@
 int	main(int argc, char *argv[])
 {
   pid_t pid;
-
+  
   if (argc < 2)
     {
       fprintf(stderr, "Usage: %s <commande>\n", argv[0]);

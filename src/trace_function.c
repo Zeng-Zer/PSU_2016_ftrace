@@ -11,7 +11,14 @@
 #include "ftrace.h"
 
 // TODO trace function call/leave
-void trace_function(t_proc *proc)
+void trace_function(t_proc *proc, long opcode)
 {
+  int	address;
+  long	label;
 
+  address = (int)(opcode >> 8);
+  label = ptrace(PTRACE_PEEKTEXT, proc->pid, (unsigned long int)(proc->regs.rip + address + 5), NULL);
+  
+  fprintf(stderr, "Entering function 0x%x at 0x%x\n",
+	  (unsigned int)label, (unsigned int)(proc->regs.rip + address + 5));
 }

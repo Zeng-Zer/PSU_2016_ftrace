@@ -20,7 +20,7 @@ SRC :=		main.c \
 		trace_function.c \
 
 CC :=		gcc
-CFLAGS :=	-W -Wall -Wextra -g
+CFLAGS :=	-W -Wall -Wextra -g -l elf
 SRC :=		$(addprefix $(SRCDIR), $(SRC))
 OBJ :=		$(SRC:.c=.o)
 RM :=		rm -f

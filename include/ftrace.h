@@ -23,6 +23,8 @@
 # include <signal.h>
 
 # define SYSCALL 0x050f
+# define RELCALL 0xe8
+# define RET 0xc3
 
 typedef struct			s_proc
 {
@@ -40,7 +42,7 @@ typedef struct			s_syscall_proto
 pid_t				fork_process(char *argv[]);
 void				trace_process(pid_t pid);
 void				trace_syscall(t_proc *proc);
-void				trace_function(t_proc *proc);
+void				trace_function(t_proc *proc, long rip);
 t_syscall_proto			get_syscall_proto(int num);
 
 #endif /* !FTRACE_H_ */
