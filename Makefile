@@ -19,6 +19,8 @@ SRC :=		main.c \
 		trace_process.c \
 		trace_syscall.c \
 		trace_function.c \
+		trace_ret.c \
+		stack_address.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g -l elf

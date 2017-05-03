@@ -14,18 +14,21 @@
 
 #include "ftrace.h"
 
-void		trace_process(pid_t pid)
+void			trace_process(pid_t pid)
 {
-  t_proc	proc;
-  long		opcode;
-
+  t_proc		proc;
+  long			opcode;
+  t_stack_address	*stack;
+  
   proc.pid = pid;
+  stack = NULL;
   while (waitpid(pid, &proc.status, 0) && !WIFEXITED(proc.status))
     {
       ptrace(PTRACE_GETREGS, pid, NULL, &proc.regs);
       opcode = ptrace(PTRACE_PEEKTEXT, pid, proc.regs.rip, NULL);
       trace_syscall(&proc, opcode);
-      trace_function(&proc, opcode);
+      trace_function(&proc, opcode, &stack);
+      trace_ret(&proc, opcode, &stack);
       ptrace(PTRACE_SINGLESTEP, pid, NULL, NULL);
     }
 }

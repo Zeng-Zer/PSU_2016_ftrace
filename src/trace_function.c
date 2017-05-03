@@ -10,7 +10,7 @@
 
 #include "ftrace.h"
 
-void	trace_function(t_proc *proc, long opcode)
+void	trace_function(t_proc *proc, long opcode, t_stack_address **stack)
 {
   unsigned int	address;
 
@@ -19,5 +19,6 @@ void	trace_function(t_proc *proc, long opcode)
       address = opcode >> 8; // call args
       address = (proc->regs.rip + address + 5); // jump to address
       fprintf(stderr, "Entering function %s at 0x%x\n", get_function_name("./test", address), address);
+      stack_push(stack, address, proc->regs.rip);
     }
 }

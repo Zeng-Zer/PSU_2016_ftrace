@@ -27,6 +27,13 @@
 # define RELCALL 0xe8
 # define RET 0xc3
 
+typedef struct			s_stack_address
+{
+  unsigned long			callee_address;
+  unsigned long			caller_address;
+  struct s_stack_address	*next;
+}				t_stack_address;
+
 typedef struct			s_elf
 {
   Elf64_Ehdr			*elf;
@@ -53,9 +60,13 @@ typedef struct			s_syscall_proto
 pid_t				fork_process(char *argv[]);
 void				trace_process(pid_t pid);
 void				trace_syscall(t_proc *proc, long opcode);
-void				trace_function(t_proc *proc, long rip);
+void				trace_function(t_proc *proc, long rip, t_stack_address **stack);
+void				trace_ret(t_proc *proc, long rip, t_stack_address **stack);
 t_syscall_proto			get_syscall_proto(int num);
 char				*get_function_name(char const *filename,
 						   unsigned long addr);
+t_stack_address			*stack_get(t_stack_address **stack);
+void				stack_push(t_stack_address **stack, unsigned long callee, unsigned long caller);
+void				stack_pop(t_stack_address **stack);
 
 #endif /* !FTRACE_H_ */
