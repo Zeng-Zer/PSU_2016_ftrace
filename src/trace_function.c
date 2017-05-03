@@ -10,7 +10,7 @@
 
 #include "ftrace.h"
 
-void	trace_function(t_proc *proc, long opcode, t_stack_address **stack)
+void	trace_function(t_proc *proc, unsigned long opcode, t_stack_address **stack)
 {
   unsigned int	value;
   unsigned long	address;
@@ -23,5 +23,12 @@ void	trace_function(t_proc *proc, long opcode, t_stack_address **stack)
       
       fprintf(stderr, "Entering function %s at 0x%lx\n", get_function_name("./test", address), address);
       stack_push(stack, address, proc->regs.rip);
+    }
+
+  else if ((opcode & 0xFF) == 0xFF	//first == FF
+	   && ((opcode >> 8) & 0x38) == 0x10) // second == __010___
+    {
+      fprintf(stderr, "INDIRECT CALL %lx, register nb: %d\n", opcode & 0xFFFF, (unsigned char)((opcode >> 8) & 0x3));
+      stack_push(stack, 0, proc->regs.rip);
     }
 }

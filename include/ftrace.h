@@ -25,6 +25,7 @@
 
 # define SYSCALL 0x050f
 # define RELCALL 0xe8
+# define INDCALL 0xff 
 # define RET 0xc3
 
 typedef struct			s_stack_address
@@ -60,7 +61,7 @@ typedef struct			s_syscall_proto
 pid_t				fork_process(char *argv[]);
 void				trace_process(pid_t pid);
 void				trace_syscall(t_proc *proc, long opcode);
-void				trace_function(t_proc *proc, long rip, t_stack_address **stack);
+void				trace_function(t_proc *proc, unsigned long opcode, t_stack_address **stack);
 void				trace_ret(t_proc *proc, long rip, t_stack_address **stack);
 t_syscall_proto			get_syscall_proto(int num);
 char				*get_function_name(char const *filename,
