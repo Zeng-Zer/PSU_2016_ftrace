@@ -20,8 +20,9 @@ void	trace_function(t_proc *proc, long opcode, t_stack_address **stack)
       value = opcode >> 8; // call args
       address = (proc->regs.rip + value + 5); // jump to address
       address &= 0xffffffff; //recast to uns int
-      
-      fprintf(stderr, "Entering function %s at 0x%lx\n", get_function_name("./test", address), address);
+
+      fprintf(stderr, "Entering function %s at 0x%lx\n",
+	      get_function_name(address), address);
       stack_push(stack, address, proc->regs.rip);
     }
 }

@@ -10,6 +10,8 @@
 
 #include "ftrace.h"
 
+char			*g_prog = NULL;
+
 int	main(int argc, char *argv[])
 {
   pid_t pid;
@@ -19,6 +21,7 @@ int	main(int argc, char *argv[])
       fprintf(stderr, "Usage: %s <commande>\n", argv[0]);
       return 1;
     }
+  g_prog = argv[1];
   pid = fork_process(argv + 1);
   trace_process(pid);
   return (0);

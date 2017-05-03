@@ -1,3 +1,13 @@
+/*
+** stack_address.c for  in /home/zeng_d
+**
+** Made by David Zeng
+** Login   <zeng_d@epitech.net>
+**
+** Started on  Wed May  3 15:37:56 2017 David Zeng
+** Last update Wed May  3 15:37:56 2017 David Zeng
+*/
+
 #include "ftrace.h"
 
 t_stack_address	*stack_get(t_stack_address **stack)
@@ -5,7 +15,8 @@ t_stack_address	*stack_get(t_stack_address **stack)
   return (*stack);
 }
 
-void	stack_push(t_stack_address **stack, unsigned long callee, unsigned long caller)
+void	stack_push(t_stack_address **stack, unsigned long callee,
+		   unsigned long caller)
 {
   t_stack_address	*elem;
 

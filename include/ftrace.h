@@ -57,16 +57,18 @@ typedef struct			s_syscall_proto
   char				*name;
 }				t_syscall_proto;
 
-pid_t				fork_process(char *argv[]);
-void				trace_process(pid_t pid);
-void				trace_syscall(t_proc *proc, long opcode);
-void				trace_function(t_proc *proc, long rip, t_stack_address **stack);
-void				trace_ret(t_proc *proc, long rip, t_stack_address **stack);
-t_syscall_proto			get_syscall_proto(int num);
-char				*get_function_name(char const *filename,
-						   unsigned long addr);
-t_stack_address			*stack_get(t_stack_address **stack);
-void				stack_push(t_stack_address **stack, unsigned long callee, unsigned long caller);
-void				stack_pop(t_stack_address **stack);
+extern char			*g_prog;
+
+pid_t		fork_process(char *argv[]);
+void		trace_process(pid_t pid);
+void		trace_syscall(t_proc *proc, long opcode);
+void		trace_function(t_proc *proc, long rip, t_stack_address **stack);
+void		trace_ret(t_proc *proc, long rip, t_stack_address **stack);
+t_syscall_proto	get_syscall_proto(int num);
+t_stack_address	*stack_get(t_stack_address **stack);
+void		stack_push(t_stack_address **, unsigned long, unsigned long);
+void		stack_pop(t_stack_address **stack);
+char		*get_function_name(unsigned long addr);
+char		*function_binary(unsigned long addr);
 
 #endif /* !FTRACE_H_ */

@@ -16,6 +16,7 @@ SRC :=		main.c \
 		fork_process.c \
 		get_syscall_name.c \
 		get_function_name.c \
+		function_binary.c \
 		trace_process.c \
 		trace_syscall.c \
 		trace_function.c \

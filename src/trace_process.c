@@ -19,7 +19,7 @@ void			trace_process(pid_t pid)
   t_proc		proc;
   long			opcode;
   t_stack_address	*stack;
-  
+
   proc.pid = pid;
   stack = NULL;
   while (waitpid(pid, &proc.status, 0) && !WIFEXITED(proc.status))

@@ -10,10 +10,11 @@
 
 #include "ftrace.h"
 
-void			trace_ret(t_proc *proc, long opcode, t_stack_address **stack)
+void			trace_ret(t_proc *proc, long opcode,
+				  t_stack_address **stack)
 {
   t_stack_address	*ret;
-  
+
   if ((unsigned char)opcode == RET)
     {
       ret = stack_get(stack);
