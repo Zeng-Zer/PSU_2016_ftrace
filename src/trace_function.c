@@ -23,7 +23,7 @@ void	trace_function(t_proc *proc, unsigned long opcode,
       address &= 0xffffffff; //recast to uns int
 
       fprintf(stderr, "Entering function %s at 0x%lx\n",
-	      get_function_name(address), address);
+	      get_function_name(proc->pid, address), address);
       stack_push(stack, address, proc->regs.rip);
     }
 

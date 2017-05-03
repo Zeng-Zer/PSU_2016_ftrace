@@ -20,12 +20,13 @@ static char	*alternative_name(unsigned long addr)
   return (name);
 }
 
-char		*get_function_name(unsigned long addr)
+char		*get_function_name(pid_t pid, unsigned long addr)
 {
   char		*function;
 
   // TODO SO FUNC
-  if (!(function = function_binary(addr)))
+  if (!(function = function_binary(addr)) &&
+      !(function = function_dynamic(pid, addr)))
     function = alternative_name(addr);
   return (function);
 }

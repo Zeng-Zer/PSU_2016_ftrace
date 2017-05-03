@@ -8,10 +8,6 @@
 ** Last update Wed May  3 16:20:29 2017 David Zeng
 */
 
-#include <elf.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include "ftrace.h"
 
 static char	*read_file(char const *filename)

@@ -11,6 +11,10 @@
 #ifndef FTRACE_H_
 # define FTRACE_H_
 
+# include <elf.h>
+# include <sys/mman.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/ptrace.h>
@@ -69,7 +73,8 @@ t_syscall_proto	get_syscall_proto(int num);
 t_stack_address	*stack_get(t_stack_address **stack);
 void		stack_push(t_stack_address **, unsigned long, unsigned long);
 void		stack_pop(t_stack_address **stack);
-char		*get_function_name(unsigned long addr);
+char		*get_function_name(pid_t pid, unsigned long addr);
 char		*function_binary(unsigned long addr);
+char		*function_dynamic(pid_t pid, unsigned long addr);
 
 #endif /* !FTRACE_H_ */
