@@ -12,13 +12,16 @@
 
 void	trace_function(t_proc *proc, long opcode, t_stack_address **stack)
 {
-  unsigned int	address;
+  unsigned int	value;
+  unsigned long	address;
 
   if ((unsigned char)opcode == RELCALL)
     {
-      address = opcode >> 8; // call args
-      address = (proc->regs.rip + address + 5); // jump to address
-      fprintf(stderr, "Entering function %s at 0x%x\n", get_function_name("./test", address), address);
+      value = opcode >> 8; // call args
+      address = (proc->regs.rip + value + 5); // jump to address
+      address &= 0xffffffff; //recast to uns int
+      
+      fprintf(stderr, "Entering function %s at 0x%lx\n", get_function_name("./test", address), address);
       stack_push(stack, address, proc->regs.rip);
     }
 }

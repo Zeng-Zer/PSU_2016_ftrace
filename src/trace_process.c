@@ -26,9 +26,9 @@ void			trace_process(pid_t pid)
     {
       ptrace(PTRACE_GETREGS, pid, NULL, &proc.regs);
       opcode = ptrace(PTRACE_PEEKTEXT, pid, proc.regs.rip, NULL);
-      trace_syscall(&proc, opcode);
+      //      trace_syscall(&proc, opcode);
       trace_function(&proc, opcode, &stack);
-      trace_ret(&proc, opcode, &stack);
+      //      trace_ret(&proc, opcode, &stack);
       ptrace(PTRACE_SINGLESTEP, pid, NULL, NULL);
     }
 }
