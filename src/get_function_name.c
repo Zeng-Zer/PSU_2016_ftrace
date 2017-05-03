@@ -34,11 +34,43 @@ static char	*read_file(char const *filename)
   return (file);
 }
 
-char		*get_function_name(char const *filename, long addr)
+static char	*get_name(Elf64_Sym *sym, int symsize, char *strtab,
+			  unsigned long addr)
+{
+  int		i;
+
+  i = -1;
+  while (++i < symsize)
+    {
+      if (sym[i].st_value == addr)
+	return (strdup(&strtab[sym[i].st_name]));
+    }
+  return (NULL);
+}
+
+char		*get_function_name(char const *filename, unsigned long addr)
 {
   static char	*file = NULL;
+  int		i;
+  t_elf		elf;
 
   if (!file)
     file = read_file(filename);
-
+  elf.symsize = 0;
+  elf.elf = (Elf64_Ehdr *)file;
+  elf.shdr = (Elf64_Shdr *)(file + elf.elf->e_shoff);
+  elf.ststrtab = file + elf.shdr[elf.elf->e_shstrndx].sh_offset;
+  i = -1;
+  while (++i < elf.elf->e_shnum)
+    {
+      if (elf.shdr[i].sh_type == SHT_SYMTAB)
+	{
+	  elf.sym = (Elf64_Sym *)(file + elf.shdr[i].sh_offset);
+	  elf.symsize = elf.shdr[i].sh_size / sizeof(Elf64_Sym);
+	}
+      if (elf.shdr[i].sh_type == SHT_STRTAB &&
+	  strncmp(&elf.ststrtab[elf.shdr[i].sh_name], ".strtab", 7) == 0)
+	elf.strtab = file + elf.shdr[i].sh_offset;
+    }
+  return (get_name(elf.sym, elf.symsize, elf.strtab, addr));
 }
