@@ -18,6 +18,6 @@ void	trace_function(t_proc *proc, long opcode)
     {
       address = opcode >> 8; // call args
       address = (proc->regs.rip + address + 5); // jump to address
-      fprintf(stderr, "Entering function ' ' at 0x%x\n", address);
+      fprintf(stderr, "Entering function %s at 0x%x\n", get_function_name("./test", address), address);
     }
 }
