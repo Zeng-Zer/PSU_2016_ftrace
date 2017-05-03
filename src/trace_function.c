@@ -12,15 +12,12 @@
 
 void	trace_function(t_proc *proc, long opcode)
 {
-  int	address;
-  long	label;
+  unsigned int	address;
 
   if ((unsigned char)opcode == RELCALL)
     {
-      address = (int)(opcode >> 8);
-      label = ptrace(PTRACE_PEEKTEXT, proc->pid,
-		     (unsigned long int)(proc->regs.rip + address + 5), NULL);
-      fprintf(stderr, "Entering function 0x%x at 0x%x\n", (unsigned int)label,
-	      (unsigned int)(proc->regs.rip + address + 5));
+      address = opcode >> 8; // call args
+      address = (proc->regs.rip + address + 5); // jump to address
+      fprintf(stderr, "Entering function ' ' at 0x%x\n", address);
     }
 }

@@ -8,6 +8,10 @@
 ** Last update Mon May  1 19:01:59 2017 David Zeng
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 #include "ftrace.h"
 
 void		trace_process(pid_t pid)
@@ -24,5 +28,4 @@ void		trace_process(pid_t pid)
       trace_function(&proc, opcode);
       ptrace(PTRACE_SINGLESTEP, pid, NULL, NULL);
     }
-
 }
