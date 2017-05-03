@@ -15,7 +15,8 @@ static char	*alternative_name(unsigned long addr)
 {
   char		*name;
 
-  asprintf(&name, "func_0x%lX@%s", addr, rindex(g_prog, '/') + 1);
+  asprintf(&name, "func_0x%lX@%s", addr,
+	   rindex(g_prog, '/') ? rindex(g_prog, '/') + 1 : g_prog);
   return (name);
 }
 
@@ -23,7 +24,7 @@ char		*get_function_name(unsigned long addr)
 {
   char		*function;
 
-// TODO SO FUNC
+  // TODO SO FUNC
   if (!(function = function_binary(addr)))
     function = alternative_name(addr);
   return (function);
