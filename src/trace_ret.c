@@ -21,7 +21,7 @@ void			trace_ret(t_proc *proc, long opcode,
       if (ret)
 	fprintf(stderr, "leaving function: %s\n", get_function_name(proc->pid, ret->callee_address));
       else
-	fprintf(stderr, "leaving function: (none)\n");
+      	fprintf(stderr, "leaving function: (none)\n");
       stack_pop(stack);
     }
 }

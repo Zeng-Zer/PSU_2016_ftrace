@@ -24,5 +24,6 @@ int	main(int argc, char *argv[])
   g_prog = argv[1];
   pid = fork_process(argv + 1);
   trace_process(pid);
+  get_function_name(pid, 0x1234567);
   return (0);
 }

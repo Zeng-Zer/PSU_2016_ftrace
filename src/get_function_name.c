@@ -11,11 +11,11 @@
 #define _GNU_SOURCE
 #include "ftrace.h"
 
-static char	*alternative_name(unsigned long addr)
+static char	*alternative_name(unsigned int addr)
 {
   char		*name;
 
-  asprintf(&name, "func_0x%lX@%s", addr,
+  asprintf(&name, "func_0x%X@%s", addr,
 	   rindex(g_prog, '/') ? rindex(g_prog, '/') + 1 : g_prog);
   return (name);
 }
@@ -24,7 +24,6 @@ char		*get_function_name(pid_t pid, unsigned long addr)
 {
   char		*function;
 
-  // TODO SO FUNC
   if (!(function = function_binary(addr)) &&
       !(function = function_dynamic(pid, addr)))
     function = alternative_name(addr);

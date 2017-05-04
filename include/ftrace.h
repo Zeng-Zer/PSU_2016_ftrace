@@ -77,5 +77,6 @@ char		*get_function_name(pid_t pid, unsigned long addr);
 char		*function_binary(unsigned long addr);
 char		*function_dynamic(pid_t pid, unsigned long addr);
 unsigned long	get_indirect_address(t_proc *proc, unsigned long address);
+char		*read_file(char const *filename, bool should_close);
 
 #endif /* !FTRACE_H_ */

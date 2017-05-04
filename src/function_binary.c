@@ -10,11 +10,17 @@
 
 #include "ftrace.h"
 
-static char	*read_file(char const *filename)
+char		*read_file(char const *filename, bool should_close)
 {
-  int		fd;
+  static int	fd = -1;
   char		*file;
 
+  if (should_close && fd != -1)
+    {
+      close(fd);
+      fd = -1;
+      return (NULL);
+    }
   if ((fd = open(filename, O_RDONLY)) == -1)
     {
       fprintf(stderr, "Couldn't open file %s\n", filename);
@@ -25,13 +31,14 @@ static char	*read_file(char const *filename)
   if (!file)
     {
       fprintf(stderr, "Couldn't read file %s\n", filename);
+      close(fd);
       exit(1);
     }
   return (file);
 }
 
 static char	*get_name(Elf64_Sym *sym, int symsize, char *strtab,
-			  unsigned long addr)
+			  unsigned int addr)
 {
   int		i;
 
@@ -51,7 +58,7 @@ char		*function_binary(unsigned long addr)
   t_elf		elf;
 
   if (!file)
-    file = read_file(g_prog);
+    file = read_file(g_prog, false);
   elf.symsize = 0;
   elf.elf = (Elf64_Ehdr *)file;
   elf.shdr = (Elf64_Shdr *)(file + elf.elf->e_shoff);
