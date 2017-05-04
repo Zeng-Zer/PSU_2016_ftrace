@@ -20,10 +20,10 @@ void	trace_function(t_proc *proc, unsigned long opcode,
     {
       value = opcode >> 8; // call args
       address = (proc->regs.rip + value + 5); // jump to address
-      address &= 0xffffffff; //recast to uns int
+      // address &= 0xffffffff; //recast to uns int
 
       fprintf(stderr, "Entering function %s at 0x%lx\n",
-	      get_function_name(proc->pid, address), address);
+      	      get_function_name(proc->pid, address), address);
       stack_push(stack, address, proc->regs.rip);
     }
 
@@ -31,7 +31,7 @@ void	trace_function(t_proc *proc, unsigned long opcode,
 	   && ((opcode >> 8) & 0x38) == 0x10) // second == __010___
     {
       fprintf(stderr, "INDIRECT CALL %lx, register nb: %d\n",
-	      opcode & 0xFFFF, (unsigned char)((opcode >> 8) & 0x3));
+      	      opcode & 0xFFFF, (unsigned char)((opcode >> 8) & 0x3));
       stack_push(stack, 0, proc->regs.rip);
     }
 }
