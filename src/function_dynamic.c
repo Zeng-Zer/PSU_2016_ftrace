@@ -25,6 +25,7 @@ static char	*library_proc_map(pid_t pid, unsigned long addr)
 	return (NULL);
     }
   printf("LOL%s\n", maps);
+  (void)addr;
   return (NULL);
 }
 

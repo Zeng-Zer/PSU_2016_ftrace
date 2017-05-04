@@ -22,6 +22,7 @@ SRC :=		main.c \
 		trace_syscall.c \
 		trace_function.c \
 		trace_ret.c \
+		get_indirect_address.c \
 		stack_address.c \
 
 CC :=		gcc
