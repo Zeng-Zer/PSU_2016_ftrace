@@ -31,6 +31,13 @@
 # define RELCALL 0xe8
 # define INDCALL 0xff
 # define RET 0xc3
+# define IS_ELF(x) ((x)[0] == ELFMAG0 && (x)[1] == ELFMAG1 && (x)[2] == ELFMAG2)
+
+typedef struct			s_pair
+{
+  int				fst;
+  char				*snd;
+}				t_pair;
 
 typedef struct			s_stack_address
 {
@@ -78,5 +85,6 @@ char		*function_binary(unsigned long addr);
 char		*function_dynamic(pid_t pid, unsigned long addr);
 unsigned long	get_indirect_address(t_proc *proc, unsigned long address);
 char		*read_file(char const *filename, bool should_close);
+bool		wait_signals(int status);
 
 #endif /* !FTRACE_H_ */

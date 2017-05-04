@@ -24,7 +24,6 @@ void		trace_function(t_proc *proc, unsigned long opcode,
 	      get_function_name(proc->pid, address), address & 0xFFFFFFFF);
       stack_push(stack, address, proc->regs.rip);
     }
-
   else if ((opcode & 0xFF) == 0xFF	//first == FF
 	   && ((opcode >> 8) & 0x38) == 0x10) // second == __010___
     {
@@ -32,6 +31,5 @@ void		trace_function(t_proc *proc, unsigned long opcode,
       fprintf(stderr, "INDIRECT Entering function %s at 0x%lx\n",
 	      get_function_name(proc->pid, address), address & 0xFFFFFFFF);
       stack_push(stack, address, proc->regs.rbp);
-
     }
 }

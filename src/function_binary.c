@@ -91,6 +91,8 @@ char		*function_binary(unsigned long addr)
     file = read_file(g_prog, false);
   elf.symsize = 0;
   elf.elf = (Elf64_Ehdr *)file;
+  if (!IS_ELF(file))
+    exit(1);
   elf.shdr = (Elf64_Shdr *)(file + elf.elf->e_shoff);
   elf.ststrtab = file + elf.shdr[elf.elf->e_shstrndx].sh_offset;
   i = -1;

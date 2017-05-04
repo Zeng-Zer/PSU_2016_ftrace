@@ -11,7 +11,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
 #include "ftrace.h"
 
 void			trace_process(pid_t pid)
@@ -22,7 +21,7 @@ void			trace_process(pid_t pid)
 
   proc.pid = pid;
   stack = NULL;
-  while (waitpid(pid, &proc.status, 0) && !WIFEXITED(proc.status))
+  while (waitpid(pid, &proc.status, 0) && wait_signals(proc.status))
     {
       ptrace(PTRACE_GETREGS, pid, NULL, &proc.regs);
       opcode = ptrace(PTRACE_PEEKTEXT, pid, proc.regs.rip, NULL);

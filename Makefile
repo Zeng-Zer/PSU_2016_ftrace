@@ -24,6 +24,7 @@ SRC :=		main.c \
 		trace_ret.c \
 		get_indirect_address.c \
 		stack_address.c \
+		wait_signals.c \
 
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g -l elf
