@@ -10,7 +10,7 @@
 
 #include "ftrace.h"
 
-char			*g_prog = NULL;
+char	*g_prog = NULL;
 
 int	main(int argc, char *argv[])
 {

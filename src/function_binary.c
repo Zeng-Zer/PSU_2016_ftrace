@@ -10,6 +10,37 @@
 
 #include "ftrace.h"
 
+static bool	can_access(char const *file)
+{
+  struct stat	statbuf;
+
+  return (!(stat(file, &statbuf) != 0 ||
+	    S_ISDIR(statbuf.st_mode) ||
+	    access(file, F_OK | X_OK) != 0));
+}
+
+static int	open_bin(char const *file)
+{
+  char		path[256];
+  char		*p;
+  char		buf[256];
+
+  if (strchr(file, '/'))
+    return (-1);
+  strcpy(path, getenv("PATH"));
+  p = strtok(path, ":");
+  while (p)
+    {
+      strcpy(buf, p);
+      strcat(buf, "/");
+      strcat(buf, file);
+      if (can_access(buf))
+	return (open(buf, O_RDONLY));
+      p = strtok(NULL, ":");
+    }
+  return (-1);
+}
+
 char		*read_file(char const *filename, bool should_close)
 {
   static int	fd = -1;
@@ -21,12 +52,11 @@ char		*read_file(char const *filename, bool should_close)
       fd = -1;
       return (NULL);
     }
-  if ((fd = open(filename, O_RDONLY)) == -1)
+  if ((fd = open(filename, O_RDONLY)) == -1 && (fd = open_bin(filename)) == -1)
     {
       fprintf(stderr, "Couldn't open file %s\n", filename);
       exit(1);
     }
-
   file = mmap(NULL, lseek(fd, 0, SEEK_END), PROT_READ, MAP_SHARED, fd, 0);
   if (!file)
     {
