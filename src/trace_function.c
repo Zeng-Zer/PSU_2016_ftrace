@@ -10,20 +10,21 @@
 
 #include "ftrace.h"
 
-void		trace_function(t_proc *proc, unsigned long opcode, t_stack_address **stack)
+void		trace_function(t_proc *proc, unsigned long opcode,
+			       t_stack_address **stack)
 {
   unsigned int	value;
   unsigned long	address;
-  
+
   if ((opcode & 0xFF) == 0xe8) //REL CALL
     {
       value = opcode >> 8; // call args
       address = (proc->regs.rip + value + 5); // jump to address
       fprintf(stderr, "Entering function %s at 0x%lx\n",
-      	      get_function_name(proc->pid, address), address & 0xFFFFFFFF);
+	      get_function_name(proc->pid, address), address & 0xFFFFFFFF);
       stack_push(stack, address, proc->regs.rip);
     }
-  
+
   else if ((opcode & 0xFF) == 0xFF	//first == FF
 	   && ((opcode >> 8) & 0x38) == 0x10) // second == __010___
     {
