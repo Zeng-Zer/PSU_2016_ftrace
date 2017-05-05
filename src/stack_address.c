@@ -39,3 +39,13 @@ void	stack_pop(t_stack_address **stack)
   *stack = curr->next;
   free(curr);
 }
+
+t_stack_address		*stack_prev(t_stack_address **stack)
+{
+  t_stack_address	*curr;
+
+  curr = *stack;
+  if (!curr)
+    return (NULL);
+  return (curr->next);
+}

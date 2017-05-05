@@ -26,9 +26,14 @@ SRC :=		main.c \
 		stack_address.c \
 		wait_signals.c \
 
+
+SRC_BONUS :=	$(SRC) \
+		record_graph.c \
+
 CC :=		gcc
 CFLAGS :=	-W -Wall -Wextra -g -l elf
 SRC :=		$(addprefix $(SRCDIR), $(SRC))
+SRC_BONUS :=	$(addprefix $(SRCDIR), $(SRC_BONUS))
 OBJ :=		$(SRC:.c=.o)
 RM :=		rm -f
 
@@ -46,6 +51,9 @@ $(NAME): $(OBJ)
 	for file in $(shell find . | cut -c 3- | grep -P ".*\.(cpp|hpp|c|h)"); \
 		do fgrep -niH -e TODO -e FIXME $$file --color=auto; done; true
 	[ -e /bin/deep ] && deep . || echo -n
+
+bonus:
+	gcc $(SRC_BONUS) $(CFLAGS) -DBONUS -I include/ -o $(NAME)
 
 clean:
 	echo -e $(CYAN)"Cleaning $(NAME) tmp files..." $(DEFAULT)

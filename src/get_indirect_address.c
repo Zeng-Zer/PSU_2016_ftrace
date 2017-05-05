@@ -10,9 +10,9 @@
 
 #include "ftrace.h"
 
-unsigned long	get_reg_val(t_proc *proc, unsigned char number)
+static unsigned long	get_reg_val(t_proc *proc, unsigned char number)
 {
-  unsigned long	tab[9];
+  unsigned long		tab[9];
 
   tab[0] = proc->regs.rax;
   tab[1] = proc->regs.rcx;
@@ -22,16 +22,15 @@ unsigned long	get_reg_val(t_proc *proc, unsigned char number)
   tab[5] = proc->regs.rbp;
   tab[6] = proc->regs.rsi;
   tab[7] = proc->regs.rdi;
-
   return (tab[number]);
 }
 
-unsigned long	indirect_register(t_proc *proc, unsigned long reg_value)
+static unsigned long	indirect_register(t_proc *proc, unsigned long reg_value)
 {
   return (ptrace(PTRACE_PEEKTEXT, proc->pid, reg_value));
 }
 
-unsigned long	indirect_register_16(t_proc *proc, unsigned long opcode,
+static unsigned long	indirect_register_16(t_proc *proc, unsigned long opcode,
 				     unsigned long reg_value)
 {
   return (ptrace(PTRACE_PEEKTEXT, proc->pid,
@@ -45,15 +44,11 @@ unsigned long	get_indirect_address(t_proc *proc, unsigned long opcode)
 
   mod = (opcode >> 8) & 0xC0;
   reg = (opcode & 0xFF00) >> 8;
-
-  if (mod == 0x0) //00
+  if (mod == 0x0)
     return (indirect_register(proc, get_reg_val(proc, reg & 0x07)));
-
-  else if (mod == 0x40) //01
+  else if (mod == 0x40)
     return (indirect_register_16(proc, opcode, get_reg_val(proc, reg & 0x07)));
-
-  else if (mod == 0x80) //10
+  else if (mod == 0x80)
     return (indirect_register_16(proc, opcode, get_reg_val(proc, reg & 0x07)));
-
-  return (get_reg_val(proc, reg & 0x07));  //11
+  return (get_reg_val(proc, reg & 0x07));
 }

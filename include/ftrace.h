@@ -33,6 +33,13 @@
 # define RET 0xc3
 # define IS_ELF(x) ((x)[0] == ELFMAG0 && (x)[1] == ELFMAG1 && (x)[2] == ELFMAG2)
 
+# define WHITE "\x1B[37m"
+# define RED  "\x1B[31m"
+# define GREEN  "\x1B[32m"
+# define YELLOW  "\x1B[33m"
+# define BLUE  "\x1B[34m"
+# define DEFAULT_COLOR  "\x1B[0m"
+
 typedef struct			s_pair
 {
   int				fst;
@@ -73,18 +80,21 @@ extern char			*g_prog;
 
 pid_t		fork_process(char *argv[]);
 void		trace_process(pid_t pid);
-void		trace_syscall(t_proc *proc, long opcode);
+void		trace_syscall(t_proc *proc, long opcode, t_stack_address **);
 void		trace_function(t_proc *, unsigned long, t_stack_address **);
 void		trace_ret(t_proc *proc, long rip, t_stack_address **stack);
 t_syscall_proto	get_syscall_proto(int num);
 t_stack_address	*stack_get(t_stack_address **stack);
 void		stack_push(t_stack_address **, unsigned long, unsigned long);
 void		stack_pop(t_stack_address **stack);
+t_stack_address	*stack_prev(t_stack_address **stack);
 char		*get_function_name(pid_t pid, unsigned long addr);
 char		*function_binary(unsigned long addr);
 char		*function_dynamic(pid_t pid, unsigned long addr);
 unsigned long	get_indirect_address(t_proc *proc, unsigned long address);
 char		*read_file(char const *filename, bool should_close);
 bool		wait_signals(int status);
+void		record_graph(t_proc *proc, char *name,
+			     t_stack_address **stack, int flag);
 
 #endif /* !FTRACE_H_ */

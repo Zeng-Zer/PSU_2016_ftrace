@@ -10,12 +10,18 @@
 
 #include "ftrace.h"
 
-static void		print_syscall(t_proc *proc)
+static void		print_syscall(t_proc *proc, t_stack_address **stack)
 {
   t_syscall_proto	sys;
-
+  
   sys = get_syscall_proto(proc->regs.rax);
+#ifdef BONUS
+  fprintf(stderr, "%sSyscall %s%s", GREEN, BLUE, sys.name);
+  record_graph(proc, sys.name, stack, 1);
+#else
   fprintf(stderr, "Syscall %s", sys.name);
+  (void)stack;
+#endif
 }
 
 static void		print_param(t_proc *proc)
@@ -51,17 +57,24 @@ static void	print_ret(t_proc *proc)
   ptrace(PTRACE_SINGLESTEP, proc->pid, NULL, NULL);
   waitpid(proc->pid, &proc->status, 0);
   ptrace(PTRACE_GETREGS, proc->pid, NULL, &proc->regs);
+#ifdef BONUS
+  fprintf(stderr, "%s", YELLOW);
+#endif
   if (isExit)
     fprintf(stderr, " = ?\n");
   else
     fprintf(stderr, " = 0x%llx\n", proc->regs.rax);
+#ifdef BONUS
+  fprintf(stderr, "%s", WHITE);
+#endif
 }
 
-void	trace_syscall(t_proc *proc, long opcode)
+void	trace_syscall(t_proc *proc, long opcode,
+		      t_stack_address **stack)
 {
   if ((short)opcode == SYSCALL)
     {
-      print_syscall(proc);
+      print_syscall(proc, stack);
       print_param(proc);
       print_ret(proc);
     }

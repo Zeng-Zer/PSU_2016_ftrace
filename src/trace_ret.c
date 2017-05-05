@@ -15,16 +15,18 @@ void			trace_ret(t_proc *proc, long opcode,
 {
   t_stack_address	*ret;
   char			*name;
-
-  if ((unsigned char)opcode == RET)
-    {
-      ret = stack_get(stack);
-      if (ret) {
-	name = get_function_name(proc->pid, ret->callee_address);
-	//	if (!rindex(name, '@')) {
-	  fprintf(stderr, "Leaving function %s\n", name);
-        //	}
-      }
-      stack_pop(stack);
-    }
+  
+  if (!((unsigned char)opcode == RET))
+    return ;
+  ret = stack_get(stack);
+  if (!ret)
+    return ;
+  name = get_function_name(proc->pid, ret->callee_address);
+#ifdef BONUS
+  if (!rindex(name, '@'))
+    fprintf(stderr, "%sLeaving function%s %s%s\n", RED, BLUE, name, WHITE);
+#else
+  fprintf(stderr, "Leaving function %s\n", name);
+#endif
+  stack_pop(stack);
 }

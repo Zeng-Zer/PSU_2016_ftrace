@@ -10,31 +10,39 @@
 
 #include "ftrace.h"
 
+static void	trace_call(t_proc *proc, unsigned long address,
+			   t_stack_address **stack)
+{
+  char		*name;
+  
+  name = get_function_name(proc->pid, address);
+#ifdef BONUS
+  if (!rindex(name, '@'))
+    fprintf(stderr, "%sEntering function %s%s%s at %s0x%lx%s\n",
+	    GREEN, BLUE, name, WHITE, YELLOW, address & 0xFFFFFFFF, WHITE);
+  record_graph(proc, name, stack, 1);
+#else
+  fprintf(stderr, "Entering function %s at 0x%lx\n", name, address & 0xFFFFFFFF);
+#endif
+  stack_push(stack, address, proc->regs.rbp);
+}
+
 void		trace_function(t_proc *proc, unsigned long opcode,
 			       t_stack_address **stack)
 {
-  char		*name;
   unsigned int	value;
   unsigned long	address;
-  
-  if ((opcode & 0xFF) == 0xe8) //REL CALL
+
+  if ((opcode & 0xFF) == 0xe8)
     {
-      value = opcode >> 8; // call args
-      address = (proc->regs.rip + value + 5); // jump to address
-      name = get_function_name(proc->pid, address);
-      //      if (!rindex(name, '@')) {
-	fprintf(stderr, "Entering function %s at 0x%lx\n", name, address & 0xFFFFFFFF);
-	//      }
-      stack_push(stack, address, proc->regs.rip);
+      value = opcode >> 8;
+      address = (proc->regs.rip + value + 5);
+      trace_call(proc, address, stack);
     }
-  else if ((opcode & 0xFF) == 0xFF	//first == FF
-	   && ((opcode >> 8) & 0x38) == 0x10) // second == __010___
+  else if ((opcode & 0xFF) == 0xFF
+	   && ((opcode >> 8) & 0x38) == 0x10)
     {
       address = get_indirect_address(proc, opcode);
-      name = get_function_name(proc->pid, address);
-      //      if (!rindex(name, '@')) {
-	fprintf(stderr, "INDIRECT Entering function %s at 0x%lx\n", name, address & 0xFFFFFFFF);
-	//      }
-      stack_push(stack, address, proc->regs.rbp);
+      trace_call(proc, address, stack);
     }
 }

@@ -88,12 +88,8 @@ static char	*get_dynamic_name(char *line, unsigned long addr)
   line[strlen(line) - 1] = '\0';
   if (!(file = strchr(line, '/')) || !!strcmp(file + strlen(file) - 3, ".so"))
     return (NULL);
-
   name = parse_dynamic_lib(file, addr - start);
-  if (name)  
-    fprintf(stderr, "DYNAMIC LIB: %s %s\n", file, name);
-
- return (name);
+  return (name);
 }
 
 char		*function_dynamic(pid_t pid, unsigned long addr)

@@ -15,7 +15,7 @@ char	*g_prog = NULL;
 int	main(int argc, char *argv[])
 {
   pid_t pid;
-
+  
   if (argc < 2)
     {
       fprintf(stderr, "Usage: %s <commande>\n", argv[0]);
@@ -23,7 +23,12 @@ int	main(int argc, char *argv[])
     }
   g_prog = argv[1];
   pid = fork_process(argv + 1);
+#ifdef BONUS
+  record_graph(NULL, NULL, NULL, 0);
   trace_process(pid);
-  get_function_name(pid, 0x1234567);
+  record_graph(NULL, NULL, NULL, 0);
+#else
+  trace_process(pid);
+#endif
   return (0);
 }
