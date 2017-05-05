@@ -19,10 +19,10 @@ void			trace_ret(t_proc *proc, long opcode,
     {
       ret = stack_get(stack);
       if (ret)
-	fprintf(stderr, "Leaving function: %s\n",
+	fprintf(stderr, "Leaving function %s\n",
 		get_function_name(proc->pid, ret->callee_address));
       else
-	fprintf(stderr, "Leaving function: (none)\n");
+	fprintf(stderr, "Leaving function (none)\n");
       stack_pop(stack);
     }
 }
