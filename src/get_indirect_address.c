@@ -43,10 +43,6 @@ unsigned long	get_indirect_address(t_proc *proc, unsigned long opcode)
   unsigned char	mod;
   unsigned char	reg;
 
-  // (opcode & 0xFF0000) >> 16
-  // ptrace(PTRACE_PEEKTEXT, g_pid, call->regs.rax + (opcode & 0xFF0000) >> 16);
-  // ca qu'il y a à Register + 2 bytes;
-
   mod = (opcode >> 8) & 0xC0;
   reg = (opcode & 0xFF00) >> 8;
 
