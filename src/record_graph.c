@@ -1,3 +1,13 @@
+/*
+** record_graph.c for  in /home/buffat_b
+** 
+** Made by Bertrand Buffat
+** Login   <buffat_b@epitech.net>
+** 
+** Started on  Fri May  5 18:52:47 2017 Bertrand Buffat
+** Last update Fri May  5 19:00:10 2017 Bertrand Buffat
+*/
+
 #include <ftrace.h>
 
 static FILE	*init_record(FILE *fd)
@@ -23,19 +33,15 @@ static void		add_line(t_proc *proc, char *callee,
 
   if (rindex(callee, '@') || !*callee)
     return ;
-
   ret = stack_get(stack);
   while (ret &&
 	 rindex(get_function_name(proc->pid, ret->callee_address), '@'))
     ret = stack_prev(&ret);
-
   if (!ret)
     return ;
-  
   caller = get_function_name(proc->pid, ret->callee_address);
   if (!*caller)
     return ;
-
   fprintf(fd, "\"%s\" -> \"%s\"\n", caller, callee);
 }
 

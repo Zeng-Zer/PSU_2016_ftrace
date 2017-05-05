@@ -5,12 +5,13 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Thu May  4 22:54:33 2017 David Zeng
-** Last update Thu May  4 22:54:33 2017 David Zeng
+** Last update Fri May  5 18:57:44 2017 Bertrand Buffat
 */
 
 #include "ftrace.h"
 
-static unsigned long	get_reg_val(t_proc *proc, unsigned char number)
+static unsigned long	get_reg_val(t_proc *proc,
+				    unsigned char number)
 {
   unsigned long		tab[9];
 
@@ -25,13 +26,15 @@ static unsigned long	get_reg_val(t_proc *proc, unsigned char number)
   return (tab[number]);
 }
 
-static unsigned long	indirect_register(t_proc *proc, unsigned long reg_value)
+static unsigned long	indirect_register(t_proc *proc,
+					  unsigned long reg_value)
 {
   return (ptrace(PTRACE_PEEKTEXT, proc->pid, reg_value));
 }
 
-static unsigned long	indirect_register_16(t_proc *proc, unsigned long opcode,
-				     unsigned long reg_value)
+static unsigned long	indirect_register_16(t_proc *proc,
+					     unsigned long opcode,
+					     unsigned long reg_value)
 {
   return (ptrace(PTRACE_PEEKTEXT, proc->pid,
 		 reg_value + ((opcode >> 16) & 0xFF)));

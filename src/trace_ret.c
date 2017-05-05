@@ -5,7 +5,7 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Mon May  1 19:16:32 2017 David Zeng
-** Last update Mon May  1 19:16:32 2017 David Zeng
+** Last update Fri May  5 18:58:29 2017 Bertrand Buffat
 */
 
 #include "ftrace.h"
@@ -15,7 +15,7 @@ void			trace_ret(t_proc *proc, long opcode,
 {
   t_stack_address	*ret;
   char			*name;
-  
+
   if (!((unsigned char)opcode == RET))
     return ;
   ret = stack_get(stack);

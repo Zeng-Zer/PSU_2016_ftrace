@@ -5,7 +5,7 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Mon May  1 18:54:32 2017 David Zeng
-** Last update Mon May  1 18:54:32 2017 David Zeng
+** Last update Fri May  5 19:01:16 2017 Bertrand Buffat
 */
 
 #ifndef FTRACE_H_
@@ -31,7 +31,8 @@
 # define RELCALL 0xe8
 # define INDCALL 0xff
 # define RET 0xc3
-# define IS_ELF(x) ((x)[0] == ELFMAG0 && (x)[1] == ELFMAG1 && (x)[2] == ELFMAG2)
+# define IS_ELF(x) ((x)[0] == ELFMAG0 \
+		    && (x)[1] == ELFMAG1 && (x)[2] == ELFMAG2)
 
 # define WHITE "\x1B[37m"
 # define RED  "\x1B[31m"

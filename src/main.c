@@ -5,7 +5,7 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Mon Jan 23 17:57:49 2017 David Zeng
-** Last update Mon Jan 23 17:57:49 2017 David Zeng
+** Last update Fri May  5 18:56:58 2017 Bertrand Buffat
 */
 
 #include "ftrace.h"
@@ -15,7 +15,7 @@ char	*g_prog = NULL;
 int	main(int argc, char *argv[])
 {
   pid_t pid;
-  
+
   if (argc < 2)
     {
       fprintf(stderr, "Usage: %s <commande>\n", argv[0]);

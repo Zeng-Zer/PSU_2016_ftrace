@@ -5,7 +5,7 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Tue Apr 11 17:03:01 2017 David Zeng
-** Last update Tue Apr 11 17:03:01 2017 David Zeng
+** Last update Fri May  5 18:58:47 2017 Bertrand Buffat
 */
 
 #include "ftrace.h"
@@ -13,7 +13,7 @@
 static void		print_syscall(t_proc *proc, t_stack_address **stack)
 {
   t_syscall_proto	sys;
-  
+
   sys = get_syscall_proto(proc->regs.rax);
 #ifdef BONUS
   fprintf(stderr, "%sSyscall %s%s", GREEN, BLUE, sys.name);

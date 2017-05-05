@@ -5,7 +5,7 @@
 ** Login   <zeng_d@epitech.net>
 **
 ** Started on  Mon May  1 19:16:32 2017 David Zeng
-** Last update Mon May  1 19:16:32 2017 David Zeng
+** Last update Fri May  5 18:59:16 2017 Bertrand Buffat
 */
 
 #include "ftrace.h"
@@ -14,7 +14,7 @@ static void	trace_call(t_proc *proc, unsigned long address,
 			   t_stack_address **stack)
 {
   char		*name;
-  
+
   name = get_function_name(proc->pid, address);
 #ifdef BONUS
   if (!rindex(name, '@'))
@@ -22,7 +22,8 @@ static void	trace_call(t_proc *proc, unsigned long address,
 	    GREEN, BLUE, name, WHITE, YELLOW, address & 0xFFFFFFFF, WHITE);
   record_graph(proc, name, stack, 1);
 #else
-  fprintf(stderr, "Entering function %s at 0x%lx\n", name, address & 0xFFFFFFFF);
+  fprintf(stderr, "Entering function %s at 0x%lx\n",
+	  name, address & 0xFFFFFFFF);
 #endif
   stack_push(stack, address, proc->regs.rbp);
 }
