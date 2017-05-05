@@ -14,15 +14,17 @@ void			trace_ret(t_proc *proc, long opcode,
 				  t_stack_address **stack)
 {
   t_stack_address	*ret;
+  char			*name;
 
   if ((unsigned char)opcode == RET)
     {
       ret = stack_get(stack);
-      if (ret)
-	fprintf(stderr, "Leaving function %s\n",
-		get_function_name(proc->pid, ret->callee_address));
-      else
-	fprintf(stderr, "Leaving function (none)\n");
+      if (ret) {
+	name = get_function_name(proc->pid, ret->callee_address);
+	//	if (!rindex(name, '@')) {
+	  fprintf(stderr, "Leaving function %s\n", name);
+        //	}
+      }
       stack_pop(stack);
     }
 }
